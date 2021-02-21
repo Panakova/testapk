@@ -2,44 +2,31 @@ import kivy
 kivy.require('1.11.1')
 
 import datetime
+from kivymd.app import MDApp
 
 from helpers import screen_helper
 from result import BehaviorModel1, BehaviorModel2, BehaviorModel3, BehaviorModel4
 
 from functools import partial
-from kivy.uix.popup import Popup
-from kivymd.uix.banner import MDBanner
 from kivy.uix.screenmanager import Screen, ScreenManager
-from kivymd.app import MDApp
 from kivymd.uix.button import MDIconButton,MDRaisedButton, MDFillRoundFlatButton,MDFloatingActionButton, MDRectangleFlatButton, MDFloatingActionButtonSpeedDial, MDFlatButton, MDRoundFlatButton
 from kivy.uix.image import Image
 from kivy.lang import Builder
-from kivy.uix.floatlayout import FloatLayout
 from kivymd.uix.boxlayout import BoxLayout, MDBoxLayout
 from kivymd.uix.toolbar import MDToolbar
-from kivy.core.window import Window
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.list import OneLineAvatarIconListItem, ILeftBodyTouch, ThreeLineAvatarListItem
 from kivymd.uix.label import MDLabel
 from kivymd.uix.textfield import MDTextField, MDTextFieldRect
 from kivymd.uix.snackbar import Snackbar
 from kivymd.uix.card import MDSeparator
-from kivymd.uix.list import MDList
+from kivymd.uix.list import MDList, CheckboxLeftWidget
 from kivy.uix.scrollview import ScrollView
-from kivymd.uix.floatlayout import MDFloatLayout
 from kivy.properties import ObjectProperty
 from kivy.core.window import Window
 from kivymd.uix.gridlayout import GridLayout
-from kivymd.uix.expansionpanel import MDExpansionPanel,MDExpansionPanelOneLine
-from kivymd.uix.list import StringProperty,ThreeLineAvatarIconListItem
-
-from kivy.properties import BooleanProperty
-from kivymd.theming import ThemableBehavior
+from kivymd.uix.list import ThreeLineAvatarIconListItem
 from kivymd.uix.bottomsheet import MDListBottomSheet
-from kivy.factory import Factory
-from kivymd.toast import toast
-from kivy.animation import Animation
-from kivymd.uix.bottomsheet import MDCustomBottomSheet
 
 
 class ItemConfirm(OneLineAvatarIconListItem):
@@ -137,8 +124,6 @@ class MotivationScreenMe(Screen):
         file.write("\n")
         user = test(self.ids.nazov_testu.text)
 
-
-
 class MotivationScreenTeam(Screen):
     nazov_testu = ObjectProperty(None)
 
@@ -171,8 +156,6 @@ class MotivationScreenWe(Screen):
         file.write(self.ids.nazov_testu.text)
         file.write("\n")
 
-
-
 class TestConfirm(OneLineAvatarIconListItem):
     divider = None
 
@@ -182,7 +165,6 @@ class TestConfirm(OneLineAvatarIconListItem):
         for check in check_list:
             if check != choice:
                 check.active = False
-
 
 class test:
 
@@ -233,7 +215,6 @@ class test:
         return n
 
     # prepocet spolocneho vysledku testv-testm#
-
     def vyratajd(self):
         return self.pocetvd() - self.pocetmd()
 
@@ -324,7 +305,6 @@ class test:
         #vsetky
         elif self.d >= 1 and self.i >= 0 and self.s >= -1 and self.k >= -2:
             self.ukazovatel = "zle urobeny test"
-
 
         #dve cisla
         else:
@@ -496,9 +476,6 @@ class test:
             print("43")
             self.ukazovatel = "43"
 
-    def chyba(self):
-        del self.test_v [len(self.test_v)-1]
-
     @staticmethod
     def get_date():
         return str(datetime.datetime.now())
@@ -509,9 +486,6 @@ class test:
         with open("testy.txt", "w") as p:
             p.write(load)
             p.write(self.testovatel +";"+ self.ukazovatel+";"+ self.get_date() )
-            
-
-
 
 class TestScreenV(Screen):
     snackbar = None
@@ -519,14 +493,6 @@ class TestScreenV(Screen):
     help_dialog_v = None
     p = 0
     user = test("test1")
-
-    #def add_test(self):
-    #    user = test(self.ids.nazov_testu.text)
-
-    def omyl(self):
-        if self.ids.checkbox.active == False:
-            self.user.chyba()
-
 
     def show_HelpDialogM(self):
         ok_button = MDRaisedButton(text= "Skontroluj si test",on_release=self.close_help_dialog)
@@ -548,7 +514,7 @@ class TestScreenV(Screen):
         self.help_dialog_v.dismiss()
 
     def d_plus(self):
-        self.user.test_v += ("d",)
+        self.user.test_v += ('d',)
 
     def i_plus(self):
         self.user.test_v += ('i',)
@@ -579,26 +545,12 @@ class TestScreenV(Screen):
 
 
     def vyhodnot(self):
-
-        if len(self.user.test_v) ==24 and len(self.user.test_m) ==24:
-            self.user.zapis_test()
-        elif len(self.user.test_v) <24 or len(self.user.test_v) <24 :
-            self.show_HelpDialogM()
-        elif len(self.user.test_v) >24 or len(self.user.test_v) >24 :
-            self.show_HelpDialogV()
-
-
-
         print("Výsledok pre test V  ", self.user.vysledok_v())
         print("list je", self.user.test_v)
         print("Výsledok pre test M  ", self.user.vysledok_m())
         print("list je", self.user.test_m)
         print("Spoločný Výsledok   ", self.user.vysledok_spol())
         print(self.user.vyhodnotenie())
-
-
-
-
 
     def show_example_snackbar(self):
         self.snackbar = Snackbar(text="Ukončiť test?",
@@ -619,7 +571,6 @@ class TestScreenV(Screen):
         self.p = self.p +2.08
         self.ids.progress.value = self.p
 
-
 class MyGoalsScreen (Screen):
 
     def on_enter(self):
@@ -630,9 +581,7 @@ class MyGoalsScreen (Screen):
         file.close()
         self.ids.mylabel.text = load_file
 
-
     def main_navigate(self, button):
-
         if button.icon == "home":
             self.manager.current = "home"
         elif button.icon == "lightning-bolt":
@@ -653,8 +602,6 @@ class GoalsScreen(Screen):
     ciel9 = ObjectProperty(None)
     ciel10 = ObjectProperty(None)
     ciel11 = ObjectProperty(None)
-
-
 
     def add_goals(self):
         if self.ids.model.text != "":
@@ -741,9 +688,6 @@ class GoalsScreen(Screen):
                 p.write(load)
                 p.write("Čo pre to musím urobiť: " + self.ids.ciel11.text + "\n")
 
-
-
-
     def show_smart(self):
         self.smart_dialog = MDDialog(title="Technika SMART", text="Je jednou z pomôcok pre dobré definovanie cieľa \n"
                                                                 "Tvoj cieľ musí byť: \n\n"
@@ -762,10 +706,6 @@ class GoalsScreen(Screen):
                                    size_hint=[0.8, None], auto_dismiss=True,)
         self.smart_dialog.open()
 
-    #def img(self):
-    #    image = Popup(title= "Stanovenie cieľov",content=Image(source='smart.png'),size= (1,.75))
-    #    image.open()
-
     def main_navigate(self, button):
         if button.icon == "home":
             self.manager.current = "home"
@@ -778,7 +718,6 @@ class GoalsScreen(Screen):
 
 class HistoryScreen(Screen):
     custom_sheet = None
-
 
     def on_enter(self):
         file = open("testy.txt", "r")
@@ -797,12 +736,6 @@ class HistoryScreen(Screen):
             load_file = load_file + line
         file.close()
         self.ids.mylabel3.text = load_file
-
-    #def on_enter(self):
-   #    for i in range(20):
-   #        self.ids.container.add_widget(
-   #            ThreeLineAvatarListItem(text=f"Single-line item {i}",secondary_text= "Secondary text here",
-   #                tertiary_text= "fit more text than usual",source= "all.png"),)
 
     def show_bottom_sheet(self):
         bs = MDListBottomSheet()
@@ -823,13 +756,8 @@ class HistoryScreen(Screen):
         elif button.icon == "notebook":
             self.manager.current = "history"
 
-
-
-
-
 class IconLeftSampleWidget(ILeftBodyTouch, MDIconButton):
     pass
-
 
 class MainApp(MDApp):
 
@@ -837,9 +765,6 @@ class MainApp(MDApp):
         self.theme_cls.primary_palette = "Red"
         self.theme_cls.primary_hue = "500"
         self.theme_cls.theme_style = "Light"
-
-
-
 
         screen = Builder.load_string(screen_helper)
         return screen
